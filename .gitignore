@@ -1,0 +1,8 @@
+cache/
+finalists/
+*.db
+scored.json
+progress.log
+report.md
+__pycache__/
+.DS_Store
