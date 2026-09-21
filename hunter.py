@@ -400,7 +400,11 @@ def main():
     ap.add_argument("--all", action="store_true", help="details: fetch all, not just title-keep tier")
     ap.add_argument("--top", type=int, default=None, help="verify: top N to verify (default from profile)")
     a = ap.parse_args()
-    h = Hunter(json.loads((BASE / a.profile if not Path(a.profile).is_absolute() else Path(a.profile)).read_text(encoding="utf-8")))
+    profile = json.loads((BASE / a.profile if not Path(a.profile).is_absolute() else Path(a.profile)).read_text(encoding="utf-8"))
+    local = BASE / 'profiles' / 'local.json'
+    if not a.profile.endswith('local.json') and local.exists():
+        profile.update(json.loads(local.read_text(encoding='utf-8')))
+    h = Hunter(profile)
     if a.stage == "lists":
         h.stage_lists(fresh=a.fresh)
     elif a.stage == "prefilter":

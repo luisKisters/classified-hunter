@@ -6,3 +6,5 @@ progress.log
 report.md
 __pycache__/
 .DS_Store
+profiles/local.json
+location.txt
