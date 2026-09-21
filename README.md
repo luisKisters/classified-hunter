@@ -34,3 +34,12 @@ Copy `profiles/bike.json` and change: `searches` (category id or keywords), `pri
 Private, personal use. Not affiliated with or endorsed by Kleinanzeigen. Automated access is against their ToS; keep volume low, treat seller metadata as ephemeral (delete the DB after the hunt), and don't use this commercially. See the `classified-hunter` skill in [luiskisters/skills](https://github.com/luiskisters/skills) for the agent-facing workflow.
 
 Related: `deal-radar` (planning repo for the always-on monitored version with Telegram push).
+
+## License
+
+- Non-production use: Business Source License 1.1 (LICENSE). It converts to
+  Apache-2.0 on 2031-09-21.
+- Commercial/productive use: allowed under COMMERCIAL-LICENSE.md — 5% revenue
+  share, paid quarterly.
+- No warranty and, to the extent permitted by law, no liability. The author
+  has used this privately only and never commercially.

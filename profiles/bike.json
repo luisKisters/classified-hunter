@@ -1,17 +1,35 @@
 {
   "name": "bike",
   "site": "kleinanzeigen",
-  "location": "[REDACTED-LOCATION]",
+  "location": "",
   "radius": 20,
-  "price": [80, 220],
+  "price": [
+    80,
+    220
+  ],
   "max_pages": 25,
   "image_rule": "$_59.JPG",
   "searches": [
-    {"kind": "category", "category_id": 217},
-    {"kind": "keyword", "q": "singlespeed"},
-    {"kind": "keyword", "q": "fixie"},
-    {"kind": "keyword", "q": "rennrad"},
-    {"kind": "keyword", "q": "nabenschaltung"}
+    {
+      "kind": "category",
+      "category_id": 217
+    },
+    {
+      "kind": "keyword",
+      "q": "singlespeed"
+    },
+    {
+      "kind": "keyword",
+      "q": "fixie"
+    },
+    {
+      "kind": "keyword",
+      "q": "rennrad"
+    },
+    {
+      "kind": "keyword",
+      "q": "nabenschaltung"
+    }
   ],
   "title_keep": "rennrad|roadbike|speed ?bike|fixie|singlespeed|single speed",
   "title_exclude": "trikot|helm|laufsatz|laufradsatz|rahmensatz|wandhalterung|halterung|rahmen und separates",
@@ -26,8 +44,14 @@
     ],
     "min": 58,
     "max": 61,
-    "labels": ["L", "XL"],
-    "labels_kill": ["S", "M"]
+    "labels": [
+      "L",
+      "XL"
+    ],
+    "labels_kill": [
+      "S",
+      "M"
+    ]
   },
   "bodyguard": "federgabel",
   "scoring": {

@@ -11,21 +11,23 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
+_LOC = (Path(__file__).parent.parent / 'location.txt').read_text(encoding='utf-8').strip()
+
 BASE = Path(__file__).parent
 DB = BASE / "hunter.db"
 CACHE = BASE / "cache"
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
 
 SEARCHES = [
-    {"kind": "category", "categoryId": 217, "locationStr": "[REDACTED-LOCATION]", "radius": 20, "minPrice": 80, "maxPrice": 220},
-    {"kind": "keyword", "q": "singlespeed", "locationStr": "[REDACTED-LOCATION]", "radius": 20, "minPrice": 80, "maxPrice": 220},
-    {"kind": "keyword", "q": "fixie", "locationStr": "[REDACTED-LOCATION]", "radius": 20, "minPrice": 80, "maxPrice": 220},
-    {"kind": "keyword", "q": "rennrad", "locationStr": "[REDACTED-LOCATION]", "radius": 20, "minPrice": 80, "maxPrice": 220},
-    {"kind": "keyword", "q": "nabenschaltung", "locationStr": "[REDACTED-LOCATION]", "radius": 20, "minPrice": 80, "maxPrice": 220},
+    {"kind": "category", "categoryId": 217, "locationStr": _LOC, "radius": 20, "minPrice": 80, "maxPrice": 220},
+    {"kind": "keyword", "q": "singlespeed", "locationStr": _LOC, "radius": 20, "minPrice": 80, "maxPrice": 220},
+    {"kind": "keyword", "q": "fixie", "locationStr": _LOC, "radius": 20, "minPrice": 80, "maxPrice": 220},
+    {"kind": "keyword", "q": "rennrad", "locationStr": _LOC, "radius": 20, "minPrice": 80, "maxPrice": 220},
+    {"kind": "keyword", "q": "nabenschaltung", "locationStr": _LOC, "radius": 20, "minPrice": 80, "maxPrice": 220},
 ]
 MAX_PAGES = 25
 JITTER = (3.0, 7.0)
-HOME_PLZ = ([REDACTED-COORDS])  # [REDACTED-LOCATION] approx
+HOME_PLZ = None  # location lives only in the untracked location.txt
 
 # ---------- http ----------
 def get(url: str, ttl_days: float = 7) -> str:
