@@ -1,4 +1,4 @@
-# Commercial Use Addendum — classified-hunter
+# Commercial Use Addendum — kleinscoutr
 
 Business Source License 1.1 (see LICENSE) grants non-production use only.
 This addendum is a separate grant from Luis Kisters, Berlin, Germany
