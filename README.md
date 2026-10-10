@@ -56,6 +56,8 @@ Each stage can run on its own. Use `--profile PATH` with any command.
 
 Stages keep progress in SQLite. A second run reuses completed work. `--fresh` checks the list pages again. Existing ad IDs keep their state; verified and killed ads are not processed again. Failed detail fetches stay `kept`. Failed verification fetches or title mismatches stay `scored`, so the next verify command can retry them. A real deleted page becomes `gone`.
 
+Logged out, Kleinanzeigen shows at most five result pages (about 125 ads) per search. Split broad searches into narrower ones, for example by keyword or with a per-search `price` range.
+
 ## Writing your own profile
 Required keys:
 
@@ -65,7 +67,7 @@ Required keys:
 | `site` | `"kleinanzeigen"` |
 | `location`, `radius` | Location text and radius in kilometres |
 | `price` | `[min, max]` in euros; unknown prices are not killed |
-| `searches` | List of `{"kind":"keyword","q":"..."}` or `{"kind":"category","category_id":217}` |
+| `searches` | List of `{"kind":"keyword","q":"..."}` or `{"kind":"category","category_id":217}`; optional `"price": [min, max]` narrows one search |
 
 A tiny profile:
 

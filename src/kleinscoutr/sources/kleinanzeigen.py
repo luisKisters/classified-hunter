@@ -12,12 +12,13 @@ def clean(text):
 
 
 def search_url(profile, search, page=1):
+    lo, hi = search.get("price", profile["price"])
     params = {
         "keywords": search.get("q", "") if search["kind"] == "keyword" else "",
         "locationStr": profile["location"],
         "radius": profile["radius"],
-        "minPrice": profile["price"][0],
-        "maxPrice": profile["price"][1],
+        "minPrice": lo,
+        "maxPrice": hi,
         "sortingField": "NEWEST_FIRST",
     }
     if search["kind"] == "category":

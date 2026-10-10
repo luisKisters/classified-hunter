@@ -55,6 +55,10 @@ def test_search_encoding(bike):
     assert parse_qs(urlsplit(url).query)["pageNum"] == ["2"]
     category = source.search_url(bike, {"kind": "category", "category_id": 217})
     assert parse_qs(urlsplit(category).query)["categoryId"] == ["217"]
+    narrow = parse_qs(
+        urlsplit(source.search_url(bike, {**bike["searches"][0], "price": [80, 150]})).query
+    )
+    assert (narrow["minPrice"], narrow["maxPrice"]) == (["80"], ["150"])
 
 
 def test_deleted_words_in_description_are_not_deleted(pages):

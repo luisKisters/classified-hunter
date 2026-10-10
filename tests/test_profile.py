@@ -60,6 +60,7 @@ def test_missing_required(key):
         ({"photos": {"threshold": True}}, "photos.threshold"),
         ({"searches": [{"kind": "keyword"}]}, "searches"),
         ({"price": [100, 0]}, "price"),
+        ({"searches": [{"kind": "keyword", "q": "x", "price": [9]}]}, "searches.0..price"),
     ],
 )
 def test_bad_profile_error(extra, key):
