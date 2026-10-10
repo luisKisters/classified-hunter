@@ -12,20 +12,13 @@ def test_parse_list(pages):
         "id": "1001",
         "title": "Rennrad & Zubehör",
         "price": "100 €",
-        "location": "Musterort",
+        "location": "10999 Musterort (3 km)",
         "teaser": "Neutraler Artikeltext.",
-        "thumb": "https://images.example.test/thumb.jpg",
+        "thumb": "https://images.example.test/thumb.jpg?rule=$_2.AUTO",
     }
     assert ads[1]["price"] == "1.200 €"
-    assert next_url == source.BASE + "/s-suchanfrage.html?pageNum=2&keywords=road+bike"
-    assert (
-        source.parse_list(
-            pages["search"].replace(
-                'pagination-next"', 'pagination-next pagination-next--disabled"'
-            )
-        )[1]
-        is None
-    )
+    assert next_url == source.BASE + "/s-10997/preis:80:400/seite:2/road-bike/k0l3401r20?a=1&b=2"
+    assert source.parse_list(pages["search"].replace('aria-label="Nächste"', ""))[1] is None
 
 
 def test_parse_detail(pages):

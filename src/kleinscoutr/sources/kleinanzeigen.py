@@ -42,33 +42,27 @@ def parse_list(page):
         aid = re.search(r'data-adid="(\d+)"', attrs)
         if not aid:
             continue
+        body = re.sub(r"<(script|svg)\b.*?</\1>", "", body, flags=re.S)
 
         def field(pattern):
             hit = re.search(pattern, body, re.S)
             return clean(hit.group(1)) if hit else ""
 
+        place = re.search(r"<span>(\d{5}[^<]*)</span>(?:\s*<span[^>]*>([^<]*)</span>)?", body)
         img = re.search(r'<img[^>]+src="([^"]+)"', body)
         ads.append(
             {
                 "id": aid.group(1),
-                "title": field(r"<h2[^>]*>(.*?)</h2>"),
-                "price": field(r'aditem-main--middle--price-shipping--price[^"\s]*"[^>]*>(.*?)</'),
-                "location": field(r'aditem-main--top--left[^"\s]*"[^>]*>(.*?)</div>'),
-                "teaser": field(r"aditem-main--middle--description[^>]*>(.*?)</p>"),
+                "title": field(r"<h3\b[^>]*>(.*?)</h3>"),
+                "price": field(r'<p class="[^"]*\btext-title3\b[^"]*">(.*?)</p>'),
+                "location": clean(" ".join(g for g in place.groups() if g)) if place else "",
+                "teaser": field(r'<p class="[^"]*\btext-bodyRegular\b[^"]*">(.*?)</p>'),
                 "thumb": html.unescape(img.group(1)) if img else "",
             }
         )
-    next_url = None
-    for tag in re.findall(r"<a\b[^>]*>", page):
-        if (
-            re.search(r'class="[^"]*\bpagination-next\b', tag)
-            and "pagination-next--disabled" not in tag
-        ):
-            href = re.search(r'href="([^"]+)"', tag)
-            if href:
-                next_url = urljoin(BASE, html.unescape(href.group(1)))
-                break
-    return ads, next_url
+    nxt = re.search(r'<a\b[^>]*aria-label="Nächste"[^>]*>', page)
+    href = re.search(r'href="([^"]+)"', nxt.group(0)) if nxt else None
+    return ads, urljoin(BASE, html.unescape(href.group(1))) if href else None
 
 
 def gallery_urls(page):
