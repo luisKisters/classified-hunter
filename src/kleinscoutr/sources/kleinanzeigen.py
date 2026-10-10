@@ -108,7 +108,7 @@ def parse_detail(page):
     )
     return {
         "description": clean(desc.group(2)) if desc else "",
-        "images": len(gallery_urls(page)),
+        "images": len(re.findall(r"galleryimage-element", page)),
         "seller_id": sid.group(1) if sid else "",
         "seller_since": since.group(1) if since else "",
         "seller_badges": "|".join(sorted(set(badges))),

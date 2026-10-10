@@ -32,7 +32,7 @@ def test_parse_detail(pages):
     ad = source.parse_detail(pages["detail"])
     assert ad == {
         "description": "RH 58 Kette Reifen Umzug Fuji Modell Rechnung beide bremsen Schutzblech",
-        "images": 6,
+        "images": 8,
         "seller_id": "seller-placeholder",
         "seller_since": "01.01.2020",
         "seller_badges": "Besonders freundlich|Sehr zuverlässig",
