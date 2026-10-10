@@ -1,6 +1,20 @@
 # classified-hunter
 
-Config-driven pipeline that hunts for items on Kleinanzeigen (German classifieds) and ranks them against your criteria. Generalized from the `bike-hunter` prototype (see `legacy/`), which was validated end-to-end on a real hunt: ~2900 listings swept, defect-scoring bugs found and fixed, winner picked.
+Find the one good deal in thousands of classified ads.
+
+classified-hunter sweeps Kleinanzeigen (German classifieds), throws out everything that does not fit, scores the rest, and checks that the winners are still online. You describe the hunt in one JSON profile: what to search, the price range, what to reject, and what counts as a good sign.
+
+- **Sweep:** all searches, all pages, deduplicated.
+- **Filter:** hard kills on price, item type, size, and defects.
+- **Score:** points for condition, brand, photos, receipt, and seller trust; penalties for defects and dealers.
+- **Verify:** re-check the top picks live and download their photos.
+- **Report:** a ranked Markdown table with the reason behind every score.
+
+It grew out of the `bike-hunter` prototype (see `legacy/`), which ran a real hunt end to end: ~2900 listings swept, defect-scoring bugs found and fixed, winner picked.
+
+![classified-hunter architecture](docs/architecture.png)
+
+<sub>Editable source: [`docs/architecture.excalidraw`](docs/architecture.excalidraw) (open in excalidraw.com or Obsidian).</sub>
 
 ## How it works
 
@@ -11,7 +25,7 @@ python3 hunter.py lists     --profile profiles/bike.json [--fresh]   # sweep sea
 python3 hunter.py prefilter --profile profiles/bike.json             # kill on title/teaser: price, type, size
 python3 hunter.py details   --profile profiles/bike.json [--all]     # fetch detail pages (title-keep tier first)
 python3 hunter.py score     --profile profiles/bike.json             # defect-aware scoring -> scored.json
-python3 hunter.py verify    --profile profiles/bake.json [--top 20]  # live online check + image download
+python3 hunter.py verify    --profile profiles/bike.json [--top 20]  # live online check + image download
 python3 hunter.py report    --profile profiles/bike.json             # report.md table
 ```
 
