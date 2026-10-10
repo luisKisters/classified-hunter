@@ -52,7 +52,7 @@ Each stage can run on its own. Use `--profile PATH` with any command.
 | `report` | Write the ranked Markdown report | `--top N` |
 | `status` | Print counts for all statuses, including an empty hunt | |
 
-`--fresh` gives list pages a short cache TTL of 0.05 days (about 72 minutes). It does not fully bypass the cache. Normal list and detail cache TTL is seven days. Completed list pages are reused within that period. Verification of an unverified candidate always fetches its page with TTL zero.
+`--fresh` gives list pages a short cache TTL of 0.05 days (about 72 minutes). It does not fully bypass the cache. Normal list and detail cache TTL is seven days. Verification of an unverified candidate always fetches its page with TTL zero.
 
 Stages keep progress in SQLite. A second run reuses completed work. `--fresh` checks the list pages again. Existing ad IDs keep their state; verified and killed ads are not processed again. Failed detail fetches stay `kept`. Failed verification fetches or title mismatches stay `scored`, so the next verify command can retry them. A real deleted page becomes `gone`.
 
@@ -99,15 +99,13 @@ Optional checks are disabled when their block is absent. Patterns are case-insen
 
 Awards use their IDs in reasons, for example `+1 brand (Fuji)` or `+1 two_brakes (beide bremsen)`. Defects use distinct matched text, for example `-4 defects (kaputt/platt)`.
 
-The bike profile keeps its original weights. The unified kill list intentionally adds safety kills to prefilter and the `bodyguard` kill to score. Required terms run only at score time. Numeric prices are checked in both stages. Old database and profile formats are not supported.
-
 ## Output
 All run output goes into `runs/<name>/`:
 
 - `<name>.db`: SQLite listings with statuses `new`, `kept`, `killed`, `detailed`, `scored`, `verified`, and `gone`, plus `kill_reason` and integer `price_eur`.
 - `cache/`: cached page and image bytes.
 - `progress.log`: stage progress and fetch failures.
-- `report.md`: scored and verified candidates, sorted by score descending, then numeric price ascending. Unknown prices sort first at equal scores.
+- `report.md`: scored and verified candidates, sorted by score descending, then numeric price ascending. Unknown prices sort last at equal scores.
 - `finalists/manifest.json` and `finalists/<ad-id>/*.jpg`: verification results and downloaded images.
 
 Verify reads candidates from the database. There is no `scored.json`. Delete the run directory when you want to start a new hunt or clear seller metadata.

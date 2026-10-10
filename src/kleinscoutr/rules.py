@@ -30,7 +30,7 @@ def extract_size(text, cfg):
             lo, hi = cfg.get("recognition_range", [40, 80])
             if lo <= n <= hi:
                 return "num", n
-        elif value:
+        else:
             return "label", value.upper()
     return None, None
 

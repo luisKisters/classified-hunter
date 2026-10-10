@@ -67,7 +67,8 @@ def test_offline_pipeline_and_resume(bike, pages, tmp_path):
     store.close()
     store = Store(tmp_path / "runs/bike/bike.db")
     pipeline.run(bike, store, fetch, source)
-    assert fetch.calls == calls
+    # Only list pages are asked again (the real Fetch serves them from cache).
+    assert fetch.calls[len(calls) :] == calls[:2]
     assert sum(store.counts().values()) == 3
     store.close()
 

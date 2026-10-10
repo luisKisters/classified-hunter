@@ -1,5 +1,4 @@
 import json
-import time
 from datetime import date
 
 from . import rules
@@ -22,15 +21,9 @@ def lists(profile, store, fetch, source, fresh=False):
             if not url or url in seen:
                 break
             seen.add(url)
-            cached = store.page(url)
-            if not fresh and cached and time.time() - cached["fetched"] < ttl * 86400:
-                url = cached["next_url"]
-                continue
-            body = fetch(url, ttl_days=ttl)
-            ads, nxt = source.parse_list(body)
+            ads, nxt = source.parse_list(fetch(url, ttl_days=ttl))
             for ad in ads:
                 store.insert(ad)
-            store.save_page(url, nxt, time.time())
             store.log(f"lists page {page}: {len(ads)} ads")
             url = nxt
 

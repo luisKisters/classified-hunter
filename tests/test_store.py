@@ -33,8 +33,9 @@ def test_numeric_price_order(tmp_path):
         ("2", "90 €", 1),
         ("3", "1.200 €", 1),
         ("4", "200 €", 2),
+        ("5", "VB", 1),
     ]:
         store.insert({"id": aid, "price": price})
         store.update(aid, status="scored", score=score)
-    assert [ad["id"] for ad in store.candidates()] == ["4", "2", "1", "3"]
+    assert [ad["id"] for ad in store.candidates()] == ["4", "2", "1", "3", "5"]
     store.close()

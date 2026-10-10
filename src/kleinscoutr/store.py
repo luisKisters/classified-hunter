@@ -21,9 +21,6 @@ class Store:
             status TEXT NOT NULL DEFAULT 'new'
                 CHECK(status IN ('new','kept','killed','detailed','scored','verified','gone')),
             kill_reason TEXT)""")
-        self.db.execute(
-            "CREATE TABLE IF NOT EXISTS pages (url TEXT PRIMARY KEY, next_url TEXT, fetched REAL)"
-        )
 
     def close(self):
         self.db.close()
@@ -59,7 +56,7 @@ class Store:
         sql = (
             "SELECT * FROM ads WHERE status IN ("
             + ",".join("?" for _ in statuses)
-            + ") ORDER BY score DESC, price_eur ASC, id ASC"
+            + ") ORDER BY score DESC, price_eur IS NULL, price_eur ASC, id ASC"
         )
         params = list(statuses)
         if limit is not None:
@@ -71,13 +68,6 @@ class Store:
         counts = dict.fromkeys(STATUSES, 0)
         counts.update(dict(self.db.execute("SELECT status, COUNT(*) FROM ads GROUP BY status")))
         return counts
-
-    def page(self, url):
-        return self.db.execute("SELECT next_url, fetched FROM pages WHERE url=?", (url,)).fetchone()
-
-    def save_page(self, url, next_url, fetched):
-        self.db.execute("INSERT OR REPLACE INTO pages VALUES (?,?,?)", (url, next_url, fetched))
-        self.db.commit()
 
     def log(self, message):
         with (self.root / "progress.log").open("a", encoding="utf-8") as f:
