@@ -62,3 +62,12 @@ def test_search_encoding(bike):
     assert parse_qs(urlsplit(url).query)["pageNum"] == ["2"]
     category = source.search_url(bike, {"kind": "category", "category_id": 217})
     assert parse_qs(urlsplit(category).query)["categoryId"] == ["217"]
+
+
+def test_deleted_words_in_description_are_not_deleted(pages):
+    page = pages["detail"].replace("RH 58", "Nicht mehr verfügbar bei anderen Verkäufern. RH 58")
+    assert not source.is_gone(page)
+    assert not source.is_gone("<script>gelöscht</script><h1>Rennrad</h1>")
+    assert not source.title_matches(
+        "<script>Rennrad &amp; Zubehör</script><h1>Login</h1>", "Rennrad & Zubehör"
+    )

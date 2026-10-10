@@ -23,6 +23,8 @@ def extract_size(text, cfg):
         if not m:
             continue
         value = m.group(1)
+        if not value:
+            continue
         if value.isdigit():
             n = int(value)
             lo, hi = cfg.get("recognition_range", [40, 80])

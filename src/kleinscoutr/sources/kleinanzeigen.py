@@ -7,6 +7,7 @@ BASE = "https://www.kleinanzeigen.de"
 
 
 def clean(text):
+    text = re.sub(r"<(script|style)\b[^>]*>.*?</\1>", "", text, flags=re.S | re.I)
     return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", text))).strip()
 
 
@@ -116,6 +117,8 @@ def parse_detail(page):
 
 
 def is_gone(page):
+    if re.search(r'id=["\']viewad-description-text["\']', page):
+        return False
     text = clean(page)
     return bool(
         re.search(r"nicht mehr verf[üu]gbar|gel[öo]scht|existiert nicht|nicht gefunden", text, re.I)

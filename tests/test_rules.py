@@ -97,3 +97,7 @@ def test_generic_award_reasons(bike):
     assert points == 2
     assert "+1 brand (Fuji)" in reason
     assert "+1 two_brakes (beide bremsen)" in reason
+
+
+def test_optional_size_capture():
+    assert rules.extract_size("RH", {"patterns": [r"RH(?: (\d{2}))?"]}) == (None, None)
