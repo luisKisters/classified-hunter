@@ -56,6 +56,8 @@ def validate(profile):
             raise ProfileError(f"{key}.kind: expected keyword or category")
         field, kind = ("q", str) if search["kind"] == "keyword" else ("category_id", int)
         check(search.get(field), kind, f"{key}.{field}")
+        if "price" in search:
+            pair(search["price"], f"{key}.price")
     for key, default in [
         ("max_pages", 25),
         ("image_rule", "$_59.JPG"),
